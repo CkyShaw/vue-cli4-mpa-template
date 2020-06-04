@@ -10,6 +10,8 @@ yarn install
 yarn run dev
 yarn run dev-module1
 yarn run dev-module2
+or
+yarn run dev module1,module2
 ```
 
 ### Compiles and minifies for production
@@ -18,6 +20,8 @@ yarn run build
 yarn run build-index
 yarn run build-module1
 yarn run build-module2
+or
+yarn run build module1,module2
 ```
 
 ### Lints and fixes files
