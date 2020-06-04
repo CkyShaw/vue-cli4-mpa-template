@@ -1,0 +1,31 @@
+html {
+	body {
+		// APP类名覆盖
+		.other-theme {
+			#views {
+				font-family: 'Avenir', Helvetica, Arial, sans-serif;
+				-webkit-font-smoothing: antialiased;
+				-moz-osx-font-smoothing: grayscale;
+				text-align: center;
+				color: #fa0;
+
+				#nav {
+					padding: 30px;
+					a {
+						font-weight: bold;
+						color: #fa0;
+
+						&.router-link-exact-active {
+							color: #42b983;
+						}
+					}
+				}
+				
+				@import './home.styl'
+				@import './about.styl'
+			}
+		}
+		// 挂载到body的组件覆盖样式，放置到这里
+	}
+}
+

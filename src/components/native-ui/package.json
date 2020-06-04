@@ -1,0 +1,15 @@
+{
+	"name": "native-ui",
+	"version": "1.0.0",
+	"private": true,
+	"main": "components/index.js",
+	"dependencies": {},
+	"files": [
+		"components",
+		"example",
+		"directives",
+		"locale",
+		"mixins",
+		"utils"
+	]
+}
