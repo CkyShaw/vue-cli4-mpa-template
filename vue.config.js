@@ -167,7 +167,9 @@ module.exports = {
 	css: {
 		loaderOptions: {
 			less: {
-				javascriptEnabled: true
+				lessOptions:{
+              		javascriptEnabled: true,
+            	}
 			},
 			stylus: {
 				// 导入全局 styl
