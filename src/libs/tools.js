@@ -202,15 +202,15 @@ export const getExplorer = () => {
 /**
  * @description 绑定事件 on(element, event, handler)
  */
-export const on = (function() {
+export const on = (function () {
 	if (document.addEventListener) {
-		return function(element, event, handler) {
+		return function (element, event, handler) {
 			if (element && event && handler) {
 				element.addEventListener(event, handler, false)
 			}
 		}
 	}
-	return function(element, event, handler) {
+	return function (element, event, handler) {
 		if (element && event && handler) {
 			element.attachEvent('on' + event, handler)
 		}
@@ -220,15 +220,15 @@ export const on = (function() {
 /**
  * @description 解绑事件 off(element, event, handler)
  */
-export const off = (function() {
+export const off = (function () {
 	if (document.removeEventListener) {
-		return function(element, event, handler) {
+		return function (element, event, handler) {
 			if (element && event) {
 				element.removeEventListener(event, handler, false)
 			}
 		}
 	}
-	return function(element, event, handler) {
+	return function (element, event, handler) {
 		if (element && event) {
 			element.detachEvent('on' + event, handler)
 		}
@@ -508,7 +508,7 @@ export function getTime(type) {
 export function debounce(func, wait, immediate) {
 	let timeout, args, context, timestamp, result
 
-	const later = function() {
+	const later = function () {
 		// 据上一次触发时间间隔
 		const last = +new Date() - timestamp
 
@@ -525,7 +525,7 @@ export function debounce(func, wait, immediate) {
 		}
 	}
 
-	return function(...args) {
+	return function (...args) {
 		context = this
 		timestamp = +new Date()
 		const callNow = immediate && !timeout
@@ -635,7 +635,7 @@ export function toObject(arr) {
 	return res
 }
 
-export const getValueByPath = function(object, prop) {
+export const getValueByPath = function (object, prop) {
 	prop = prop || ''
 	const paths = prop.split('.')
 	let current = object
@@ -679,7 +679,7 @@ export function getPropByPath(obj, path, strict) {
 	}
 }
 
-export const generateId = function() {
+export const generateId = function () {
 	return Math.floor(Math.random() * 10000)
 }
 
@@ -698,7 +698,7 @@ export const valueEquals = (a, b) => {
 export const escapeRegexpString = (value = '') => String(value).replace(/[|\\{}()[\]^$+*?.]/g, '\\$&')
 
 // TODO: use native Array.find, Array.findIndex when IE support is dropped
-export const arrayFindIndex = function(arr, pred) {
+export const arrayFindIndex = function (arr, pred) {
 	for (let i = 0; i !== arr.length; ++i) {
 		if (pred(arr[i])) {
 			return i
@@ -707,13 +707,13 @@ export const arrayFindIndex = function(arr, pred) {
 	return -1
 }
 
-export const arrayFind = function(arr, pred) {
+export const arrayFind = function (arr, pred) {
 	const idx = arrayFindIndex(arr, pred)
 	return idx !== -1 ? arr[idx] : undefined
 }
 
 // coerce truthy value to array
-export const coerceTruthyValueToArray = function(val) {
+export const coerceTruthyValueToArray = function (val) {
 	if (Array.isArray(val)) {
 		return val
 	} else if (val) {
@@ -723,15 +723,15 @@ export const coerceTruthyValueToArray = function(val) {
 	}
 }
 
-export const isIE = function() {
+export const isIE = function () {
 	return !Vue.prototype.$isServer && !isNaN(Number(document.documentMode))
 }
 
-export const isEdge = function() {
+export const isEdge = function () {
 	return !Vue.prototype.$isServer && navigator.userAgent.indexOf('Edge') > -1
 }
 
-export const autoprefixer = function(style) {
+export const autoprefixer = function (style) {
 	if (typeof style !== 'object') return style
 	const rules = ['transform', 'transition', 'animation']
 	const prefixes = ['ms-', 'webkit-']
@@ -746,20 +746,17 @@ export const autoprefixer = function(style) {
 	return style
 }
 
-export const kebabCase = function(str) {
+export const kebabCase = function (str) {
 	const hyphenateRE = /([^-])([A-Z])/g
-	return str
-		.replace(hyphenateRE, '$1-$2')
-		.replace(hyphenateRE, '$1-$2')
-		.toLowerCase()
+	return str.replace(hyphenateRE, '$1-$2').replace(hyphenateRE, '$1-$2').toLowerCase()
 }
 
-export const capitalize = function(str) {
+export const capitalize = function (str) {
 	if (!isString(str)) return str
 	return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
-export const looseEqual = function(a, b) {
+export const looseEqual = function (a, b) {
 	const isObjectA = isObject(a)
 	const isObjectB = isObject(b)
 	if (isObjectA && isObjectB) {
@@ -771,7 +768,7 @@ export const looseEqual = function(a, b) {
 	}
 }
 
-export const arrayEquals = function(arrayA, arrayB) {
+export const arrayEquals = function (arrayA, arrayB) {
 	arrayA = arrayA || []
 	arrayB = arrayB || []
 
@@ -788,14 +785,14 @@ export const arrayEquals = function(arrayA, arrayB) {
 	return true
 }
 
-export const isEqual = function(value1, value2) {
+export const isEqual = function (value1, value2) {
 	if (Array.isArray(value1) && Array.isArray(value2)) {
 		return arrayEquals(value1, value2)
 	}
 	return looseEqual(value1, value2)
 }
 
-export const isEmpty = function(val) {
+export const isEmpty = function (val) {
 	// null or undefined
 	if (val == null) return true
 

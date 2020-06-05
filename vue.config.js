@@ -10,7 +10,7 @@
  *  	2.多个打包： npm run build module1,module2 或者 yarn build module1,module2
  *  	3.一组打包： npm run build:groupName 或者 yarn build:groupName
  *  	3.全部打包： npm run build:all 或者 yarn build:all (多线程效率至少提高 70% 包越多效率提升越大)
- *  	
+ *
  */
 const path = require('path')
 
@@ -21,40 +21,32 @@ const resolve = dir => {
 let getPagesConfig = require('./pages.config.js')
 
 let pages = {}
+let outputDir = 'dist/empty/'
 
-// 解析
-if (!process.argv[4] && process.argv[2] == 'serve') return console.log('\x1b[91m','命令参数错误，请输入完整信息，多个模块名以","号隔开！ \n 开发阶段最多同时运行十个以下模块')
-if (!process.argv[4] && process.argv[2] == 'build') return console.log('\x1b[91m','命令参数错误，请输入完整信息，多个模块名以","号隔开！ \n 打包所有项目请运行 npm run build:all or yarn build:all')
-
-let projectArray = process.argv[4].split(',')
-if (process.argv[2] == 'serve' && process.argv[4] && projectArray.length > 9) return console.log('\x1b[91m','由于内存限制，建议同时运行9个及以下模块！')
-let singleCommand = projectArray[0]
-let directory = getPagesConfig.init()
-
-// 手动多线程构建全部模块，注意：vue会默认开启一个线程所以要从第二个开始打包
-let spawn = require('child_process').spawn;
-function threadBuild() {
+function threadBuild(spawn, projectArray) {
 	for (let i = 1; i < projectArray.length; i++) {
-		let build = spawn('node', ['./node_modules/@vue/cli-service/bin/vue-cli-service.js','build', '--module', projectArray[i]]);
+		let build = spawn('node', [
+			'./node_modules/@vue/cli-service/bin/vue-cli-service.js',
+			'build',
+			'--module',
+			projectArray[i]
+		])
 
-		build.stdout.on('data', function(data){
-		    console.log('\x1b[92m', 'stdout: ' + data);
-		});
+		build.stdout.on('data', function (data) {
+			console.log('\x1b[92m', 'stdout: ' + data)
+		})
 
-		build.stderr.on('data', function(data){
-		    console.log('\x1b[96m', 'stderr: ' + data);
-		});
+		build.stderr.on('data', function (data) {
+			console.log('\x1b[96m', 'stderr: ' + data)
+		})
 
-		build.on('close', function(code){
-		    console.log('\x1b[97m', 'close: ' + code);
-		});	
+		build.on('close', function (code) {
+			console.log('\x1b[97m', 'close: ' + code)
+		})
 	}
 }
-if (process.argv[2] == 'build' && projectArray.length > 1) {
-	threadBuild()
-}
-// console.log('process.argv', process.argv)
-function getPagesByCmd() {
+
+function getPagesByCmd(directory, projectArray) {
 	Object.keys(directory).forEach(name => {
 		projectArray.forEach(item => {
 			if (name == item) {
@@ -63,33 +55,59 @@ function getPagesByCmd() {
 		})
 	})
 }
-// 注入
-if (process.env.NODE_ENV == 'development' && process.env.npm_lifecycle_event == 'dev:groupName') {
-	// 运行自定义组模块
-	getPagesByCmd()
-} else if (process.env.NODE_ENV == 'development') {
-	// 非主题开发模式下自动注入5200框架
-	pages['index'] = directory['index'];
-	getPagesByCmd()
-} else if (process.env.NODE_ENV == 'production') {
-	Object.keys(directory).forEach(name => {
-		projectArray.forEach((item, idx) => {
-			// 每次线程确保匹配当前模块
-			if (name == item && idx == 0) {
-				pages[item] = directory[item]
-			}
+
+if (process.argv[2] == 'serve' || process.argv[2] == 'build') {
+	// 解析
+	if (!process.argv[4] && process.argv[2] == 'serve')
+		return console.log(
+			'\x1b[91m',
+			'命令参数错误，请输入完整信息，多个模块名以","号隔开！ \n 开发阶段最多同时运行十个以下模块'
+		)
+	if (!process.argv[4] && process.argv[2] == 'build')
+		return console.log(
+			'\x1b[91m',
+			'命令参数错误，请输入完整信息，多个模块名以","号隔开！ \n 打包所有项目请运行 npm run build:all or yarn build:all'
+		)
+
+	let projectArray = process.argv[4].split(',')
+	if (process.argv[2] == 'serve' && process.argv[4] && projectArray.length > 9)
+		return console.log('\x1b[91m', '由于内存限制，建议同时运行9个及以下模块！')
+	let singleCommand = projectArray[0]
+	let directory = getPagesConfig.init()
+
+	// 手动多线程构建全部模块，注意：vue会默认开启一个线程所以要从第二个开始打包
+	let spawn = require('child_process').spawn
+	if (process.argv[2] == 'build' && projectArray.length > 1) {
+		threadBuild(spawn, projectArray)
+	}
+	// console.log('process.argv', process.argv)
+
+	// 注入
+	if (process.env.NODE_ENV == 'development' && process.env.npm_lifecycle_event == 'dev:groupName') {
+		// 运行自定义组模块
+		getPagesByCmd(directory, projectArray)
+	} else if (process.env.NODE_ENV == 'development') {
+		// 非主题开发模式下自动注入5200框架
+		pages['index'] = directory['index']
+		getPagesByCmd(directory, projectArray)
+	} else if (process.env.NODE_ENV == 'production') {
+		Object.keys(directory).forEach(name => {
+			projectArray.forEach((item, idx) => {
+				// 每次线程确保匹配当前模块
+				if (name == item && idx == 0) {
+					pages[item] = directory[item]
+				}
+			})
 		})
-	})
-}
+	}
 
-// 打包输出路径
-let outputDir = ''
-if (singleCommand == 'index') {
-	outputDir = 'dist/vue-cli4-mpa-template/'
-} else {
-	outputDir = 'dist/vue-cli4-mpa-template/module/' + singleCommand
+	// 打包输出路径
+	if (singleCommand == 'index') {
+		outputDir = 'dist/vue-cli4-mpa-template/'
+	} else {
+		outputDir = 'dist/vue-cli4-mpa-template/module/' + singleCommand
+	}
 }
-
 
 // --------------------------------------------------------------
 
@@ -167,9 +185,9 @@ module.exports = {
 	css: {
 		loaderOptions: {
 			less: {
-				lessOptions:{
-              		javascriptEnabled: true,
-            	}
+				lessOptions: {
+					javascriptEnabled: true
+				}
 			},
 			stylus: {
 				// 导入全局 styl

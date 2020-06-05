@@ -7,7 +7,7 @@ import ocxMessage from './ocx-message/ocx-message.js'
 
 const components = [FilterTree, ocxMessage]
 
-const install = function(Vue) {
+const install = function (Vue) {
 	components.forEach(component => {
 		Vue.component(component.name, component)
 	})

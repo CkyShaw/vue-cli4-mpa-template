@@ -13,11 +13,11 @@
 
 <script>
 import './error.styl'
-import backBtnGroup from './back-btn-group.vue'
+// import backBtnGroup from './back-btn-group.vue'
 export default {
 	name: 'error_content',
 	components: {
-		backBtnGroup
+		// backBtnGroup
 	},
 	props: {
 		code: String,

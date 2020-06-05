@@ -11,11 +11,7 @@ let username = connect.mqtt.username
 let password = connect.mqtt.password
 
 let url = `ws://${host}:${port}/${path}`
-let clientId =
-	'mqttjs_' +
-	Math.random()
-		.toString(16)
-		.substr(2, 8)
+let clientId = 'mqttjs_' + Math.random().toString(16).substr(2, 8)
 
 let options = {
 	keepalive: 1000,
@@ -59,12 +55,12 @@ client.on('end', () => {
 })
 
 //监听离线
-client.on('offline', function() {
+client.on('offline', function () {
 	console.log('MQTT已离线')
 })
 
 //重连
-client.on('reconnect', function() {
+client.on('reconnect', function () {
 	console.log('MQTT正在重连')
 })
 

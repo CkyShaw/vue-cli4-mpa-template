@@ -15,11 +15,7 @@ export default {
 	},
 	data() {
 		return {
-			highChartId:
-				'id-' +
-				Math.random()
-					.toString(16)
-					.substr(2, 8),
+			highChartId: 'id-' + Math.random().toString(16).substr(2, 8),
 			cloneOption: {}
 		}
 	},

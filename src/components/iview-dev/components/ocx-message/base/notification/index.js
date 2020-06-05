@@ -26,7 +26,7 @@ Notification.newInstance = properties => {
 		component: notification,
 		destroy(element) {
 			notification.closeAll()
-			setTimeout(function() {
+			setTimeout(function () {
 				document.body.removeChild(document.getElementsByClassName(element)[0])
 			}, 500)
 		}

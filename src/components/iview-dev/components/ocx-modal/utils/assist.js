@@ -64,7 +64,7 @@ const MOZ_HACK_REGEXP = /^moz([A-Z])/
 
 function camelCase(name) {
 	return name
-		.replace(SPECIAL_CHARS_REGEXP, function(_, separator, letter, offset) {
+		.replace(SPECIAL_CHARS_REGEXP, function (_, separator, letter, offset) {
 			return offset ? letter.toUpperCase() : letter
 		})
 		.replace(MOZ_HACK_REGEXP, 'Moz$1')
@@ -150,7 +150,7 @@ export function scrollTop(el, from = 0, to, duration = 500, endCallback) {
 			window.webkitRequestAnimationFrame ||
 			window.mozRequestAnimationFrame ||
 			window.msRequestAnimationFrame ||
-			function(callback) {
+			function (callback) {
 				return window.setTimeout(callback, 1000 / 60)
 			}
 	}
@@ -248,7 +248,7 @@ export function findBrothersComponents(context, componentName, exceptMe = true) 
 }
 
 /* istanbul ignore next */
-const trim = function(string) {
+const trim = function (string) {
 	return (string || '').replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g, '')
 }
 

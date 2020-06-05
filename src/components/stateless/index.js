@@ -7,7 +7,7 @@ import error500 from './error500'
 
 const components = [error401, error404, error500]
 
-const install = function(Vue) {
+const install = function (Vue) {
 	if (install.installed) return
 	components.forEach(component => {
 		Vue.component(component.name, component)

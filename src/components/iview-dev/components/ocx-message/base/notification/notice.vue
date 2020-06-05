@@ -53,7 +53,7 @@ export default {
 		hasTitle: Boolean,
 		styles: {
 			type: Object,
-			default: function() {
+			default: function () {
 				return {
 					right: '50%'
 				}
@@ -87,7 +87,7 @@ export default {
 			return `${this.prefixCls}-notice`
 		},
 		renderFunc() {
-			return this.render || function() {}
+			return this.render || function () {}
 		},
 		classes() {
 			return [

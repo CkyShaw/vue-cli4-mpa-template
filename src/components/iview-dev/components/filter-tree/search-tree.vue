@@ -221,7 +221,7 @@ export default {
 		}
 	},
 	computed: {
-		filtrationResult: function() {
+		filtrationResult: function () {
 			this.dataDeepCopy(this.stateTree, this.data, false)
 			return this.setExpand(this.filterTreeNode(this.data, this.target), this.target)
 		}

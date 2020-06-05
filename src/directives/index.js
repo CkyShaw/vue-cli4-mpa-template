@@ -7,7 +7,7 @@ import pin from './pin'
 
 const directives = [mapCenter, clickoutside, pin]
 
-const install = function(Vue) {
+const install = function (Vue) {
 	directives.forEach(directive => {
 		Vue.directive(directive.name, directive)
 	})

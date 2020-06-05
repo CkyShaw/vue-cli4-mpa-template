@@ -78,7 +78,7 @@ module.exports = {
 				libraryDirectory: 'es',
 				style: true
 			}
-		],
+		]
 		// iview 按需引入接入体积优化有问题
 		/*[
 			'import',

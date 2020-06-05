@@ -11,7 +11,17 @@
 						frameborder="0"
 						marginheight="0"
 						marginwidth="0"
-						style="position: absolute; visibility: inherit; top: -1px; left: -1px; width: calc(100% + 3px); height: calc(100% + 2px); borderRadius: 10px; z-index: 888888; filter: Alpha(opacity = 0);"
+						style="
+							position: absolute;
+							visibility: inherit;
+							top: -1px;
+							left: -1px;
+							width: calc(100% + 3px);
+							height: calc(100% + 2px);
+							borderradius: 10px;
+							z-index: 888888;
+							filter: Alpha(opacity = 0);
+						"
 					></iframe>
 					<div
 						:class="contentClasses"

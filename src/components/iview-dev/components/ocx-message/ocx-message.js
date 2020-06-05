@@ -37,9 +37,9 @@ function notice(
 	content = '',
 	duration = defaults.duration,
 	type,
-	onClose = function() {},
+	onClose = function () {},
 	closable = false,
-	render = function() {}
+	render = function () {}
 ) {
 	const iconType = iconTypes[type]
 
@@ -73,10 +73,10 @@ function notice(
 	})
 
 	// 用于手动消除
-	return (function() {
+	return (function () {
 		let target = name++
 
-		return function() {
+		return function () {
 			instance.remove(`${prefixKey}${target}`)
 		}
 	})()

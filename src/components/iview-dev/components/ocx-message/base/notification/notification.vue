@@ -41,7 +41,7 @@ export default {
 		},
 		styles: {
 			type: Object,
-			default: function() {
+			default: function () {
 				return {
 					top: '65px',
 					left: '50%'

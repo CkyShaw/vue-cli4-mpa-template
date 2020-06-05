@@ -3,7 +3,7 @@ import highChart from './high-chart'
 
 const components = [chart, highChart]
 
-const install = function(Vue) {
+const install = function (Vue) {
 	if (install.installed) return
 	components.forEach(component => {
 		Vue.component(component.name, component)

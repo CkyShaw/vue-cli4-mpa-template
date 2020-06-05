@@ -1,6 +1,6 @@
 import chart from './chart.vue'
 
-chart.install = function(Vue) {
+chart.install = function (Vue) {
 	Vue.component(chart.name, chart)
 }
 

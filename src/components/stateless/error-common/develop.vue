@@ -1,7 +1,7 @@
 <template>
 	<div class="develop">
 		<!-- <Alert type="warning">模块开发中...</Alert> -->
-		<Card style="width:350px">
+		<Card style="width: 350px;">
 			<p>功能开发中,敬请期待...</p>
 		</Card>
 	</div>

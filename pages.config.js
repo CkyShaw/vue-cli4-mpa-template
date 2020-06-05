@@ -2,7 +2,7 @@ const glob = require('glob')
 // 多页面文件夹
 const PAGES_PATH = './src/pages'
 
-module.exports.init = function() {
+module.exports.init = function () {
 	//  首先得到包含pages文件夹里面符合条件的路径数组
 	let filePathList = glob.sync(PAGES_PATH + '/*/*.html')
 
@@ -32,6 +32,5 @@ module.exports.init = function() {
 			chunks: ['chunk-vendors', 'chunk-common', fileName]
 		}
 	})
-
 	return pages
 }

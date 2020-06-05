@@ -15,7 +15,7 @@ export default {
 		},
 		loadingConfig: {
 			type: Object,
-			default: function() {
+			default: function () {
 				return {
 					text: 'loading',
 					color: '#c23531',
@@ -29,11 +29,7 @@ export default {
 	data() {
 		return {
 			// 动态生成id, 保证多个可以挂载
-			chartId:
-				'id-' +
-				Math.random()
-					.toString(16)
-					.substr(2, 8),
+			chartId: 'id-' + Math.random().toString(16).substr(2, 8),
 			timerId: null
 		}
 	},
@@ -90,7 +86,7 @@ export default {
 			this.chartIns.off('click')
 			this.chartIns.on(
 				'click',
-				function(param) {
+				function (param) {
 					this.$emit('on-click', param)
 				}.bind(this)
 			)
@@ -98,7 +94,7 @@ export default {
 			// this.chartIns.getZr().off('click')
 			this.chartIns.getZr().on(
 				'click',
-				function(param) {
+				function (param) {
 					if (param.topTarget && param.topTarget.anid && param.topTarget.anid.indexOf('label') != -1) {
 						const pointInPixel = [param.offsetX, param.offsetY]
 
@@ -119,7 +115,7 @@ export default {
 			this.chartIns.off('legendselectchanged')
 			this.chartIns.on(
 				'legendselectchanged',
-				function(param) {
+				function (param) {
 					// console.log('派发legend点击事件', param)
 					this.$emit('legend-click', param)
 				}.bind(this)
