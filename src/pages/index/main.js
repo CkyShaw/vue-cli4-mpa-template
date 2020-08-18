@@ -67,7 +67,7 @@ Vue.prototype.$_highCharts = Highcharts*/
  * rem响应设置 样式重置 基本过渡效果 字体文件
  */
 // 动态响应rem
-import '@/libs/rem'
+import '@/libs/rem-parent.js'
 // 重置样式
 import '@/assets/style/base.css'
 // 全局过渡效果
