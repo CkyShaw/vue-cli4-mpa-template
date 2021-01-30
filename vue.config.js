@@ -109,40 +109,6 @@ if (process.argv[2] == 'serve' || process.argv[2] == 'build') {
 	}
 }
 
-// --------------------------------------------------------------
-
-/*let projectname = ''
-process.argv[2] == 'serve' && (projectname = process.argv[4])
-process.argv[2] == 'build' && (projectname = process.argv[3])
-if (process.env.NODE_ENV == 'development' && projectname == 'all') {
-	pages = getPagesConfig.init()
-} else if (process.env.NODE_ENV == 'development') {
-	pages['index'] = getPagesConfig.init()['index'];
-	pages[projectname] = getPagesConfig.init()[projectname];
-} else if (process.env.NODE_ENV == 'production') {
-	pages[projectname] = getPagesConfig.init()[projectname]
-}
-let outputDir = ''
-if (projectname == 'index') {
-	outputDir = 'dist/vue-cli4-mpa-template/'
-} else {
-	outputDir = 'dist/vue-cli4-mpa-template/module/' + projectname
-}*/
-
-// --------------------------------------------------------------
-
-// 加载静态路径基址
-/*function getStaticBaseUrl() {
-	let staticBaseUrl = ''
-	if (process.env.NODE_ENV == 'development') {
-		staticBaseUrl = '~@/assets/style/static-base-url.dev.config.styl'
-	}
-	if (process.env.NODE_ENV == 'production') {
-		staticBaseUrl = '~@/assets/style/static-base-url.pro.config.styl'
-	}
-	return staticBaseUrl
-}*/
-
 module.exports = {
 	// 静态资源引用路径
 	publicPath: './',
