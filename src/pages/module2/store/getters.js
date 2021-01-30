@@ -1,4 +1,4 @@
 export default {
-	// 访问: this.$store.getters.number
-	number: state => state.example.count
+	number: state => state.example.count,
+	flag: state => state.main.flag
 }

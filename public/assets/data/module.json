@@ -2,21 +2,21 @@
 	{
 		"name": "百度",
 		"src": "https://www.baidu.com/",
-		"icon": "md-pulse"
+		"icon": "appstore"
 	},
 	{
 		"name": "必应",
 		"src": "https://cn.bing.com/",
-		"icon": "md-pulse"
+		"icon": "appstore"
 	},
 	{
 		"name": "module1",
-		"src": "module1#",
-		"icon": "md-pulse"
+		"src": "module1/index.html",
+		"icon": "appstore"
 	},
 	{
 		"name": "module2",
-		"src": "module2?name=jack#/about?age=18",
-		"icon": "md-pulse"
+		"src": "module2/index.html?name=jack#/about?age=18",
+		"icon": "appstore"
 	}
 ]

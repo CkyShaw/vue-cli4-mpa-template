@@ -1,9 +1,0 @@
-{
-	"name": "filterTree",
-	"version": "2.0.0",
-	"private": true,
-	"main": "components/index.js",
-	"dependencies": {
-		"pinyin2": "^2.0.8"
-	}
-}

@@ -40,6 +40,20 @@ export default {
 }
 </script>
 <style lang="stylus">
-@import './assets/style/theme/default-theme/index.styl'
-@import './assets/style/theme/other-theme/index.styl'
+@import '~@/assets/style/theme/default-theme/index.styl'
+@import '~@/assets/style/theme/other-theme/index.styl'
+.full {
+	width: 100%;
+	height: 100%;
+}
+html,
+body {
+	@extend .full;
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+}
+#App {
+	@extend .full;
+}
 </style>

@@ -4,7 +4,7 @@
 	</div>
 </template>
 <script>
-import error404 from '@c/stateless/error404'
+import error404 from '@c/error/error404'
 export default {
 	name: 'not-find',
 	components: { error404 },

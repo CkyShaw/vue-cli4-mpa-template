@@ -6,7 +6,7 @@
 </template>
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/scattered/hello-world.vue'
+import HelloWorld from '@/components/hello-world.vue'
 
 export default {
 	name: 'home',

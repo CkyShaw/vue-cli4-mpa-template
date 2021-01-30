@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import iView from 'view-design/dist/iview.min.js'
+import DsaDesign from 'dsa-design'
 
 const originalPush = Router.prototype.push
 Router.prototype.push = function push(location) {
@@ -9,26 +9,26 @@ Router.prototype.push = function push(location) {
 
 Vue.use(Router)
 
-import example from './example'
+import main from './main'
 
 const router = new Router({
-	routes: [...example],
+	routes: [...main],
 	mode: 'hash'
 })
 // 加载条配置
-/*iView.LoadingBar.config({
-    color: '#0af',
-    failedColor: '#fa0',
-    height: 3,
-    duration: 800
+/*DsaDesign.LoadingBar.config({
+	color: '#0af',
+	failedColor: '#fa0',
+	height: 3,
+	duration: 800
 })*/
 router.beforeEach((to, from, next) => {
-	iView.LoadingBar.start()
+	DsaDesign.LoadingBar.start()
 	next()
 })
 router.afterEach(to => {
 	if (to.meta.title) window.document.title = to.meta.title
-	iView.LoadingBar.finish()
+	DsaDesign.LoadingBar.finish()
 	window.scrollTo(0, 0)
 })
 

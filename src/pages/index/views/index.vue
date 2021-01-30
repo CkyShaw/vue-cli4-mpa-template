@@ -1,27 +1,27 @@
 <template>
 	<div class="frame">
 		<!-- 导航组件 H:50px -->
-		<Menu mode="horizontal" :active-name="activeModuleName" @on-select="handleSelectModule">
+		<a-menu mode="horizontal" v-model="activeModuleName" @select="handleSelectModule">
 			<template v-for="(module, index) in moduleList">
-				<MenuItem :name="module.name" :key="module.name">
-					<Icon :type="module.icon" />
+				<a-menu-item :name="module.name" :key="module.name">
+					<a-icon :type="module.icon" />
 					{{ module.name }}
-				</MenuItem>
+				</a-menu-item>
 			</template>
-		</Menu>
+		</a-menu>
 		<!-- iframe 展示区域 -->
 		<a-spin size="large" :spinning="spinning" tip="模块加载中...">
 			<div class="iframe-wrap">
-				<template v-for="(module, index) in moduleList">
+				<template v-for="(module, index) in openListCache">
 					<iframe
 						frameborder="0"
 						width="100%"
 						height="100%"
 						scrolling="no"
 						allowtransparency="true"
-						:src="moduleSrcList[index]"
+						:src="module.src"
 						:key="module.name"
-						v-show="index == activeModuleIndex"
+						v-show="module.name == activeModuleName[0]"
 						@load="spinning = false"
 					></iframe>
 				</template>
@@ -40,13 +40,15 @@ export default {
 	data() {
 		return {
 			moduleList: [],
-			moduleSrcList: [],
-			activeModuleName: '',
-			activeModuleIndex: null,
+			activeModuleName: ['百度'],
 			spinning: false
 		}
 	},
-	computed: {},
+	computed: {
+		openListCache() {
+			return this.moduleList.filter(item => item.isOpen)
+		}
+	},
 	watch: {},
 	created() {
 		this.init()
@@ -64,72 +66,66 @@ export default {
 		// 获取模块配置静态文件
 		async getModuleListByLocal() {
 			let { data } = await this.$_api.common.loadStaticDataByLocalFile('module.json')
-			this.moduleSrcList = new Array(data.length)
 			data.forEach(module => {
+				module.isOpen = false
 				module.src = this.updateModuleSrc(module.src)
 			})
+
 			this.moduleList = data
 		},
-		// 根据不同环境转换地址
 		updateModuleSrc(url) {
-			// 外部链接
+			// 后台的数据 ac/index.html?name=jack&age=18#/system/device?id=8
+			// http://172.26.3.95:5210/index.html?systemId=1001&hiddenTree=1#/intelligent
 			let src = window.location.href + '404'
 			if (url && url.indexOf('http') != -1) {
 				src = url
 			} else {
 				// 解析
-				let moduleString = url.split('#')[0]
-				let moduleName = moduleString.split('?')[0]
-				let moduleQuery = ''
-				if (moduleString.split('?')[1]) {
-					moduleQuery = '?' + moduleString.split('?')[1]
-				}
-				let hashPath = url.split('#')[1]
+				let moduleName = url.split('/')[0]
+				let moduleParmas = url.split('?')[1] || ''
 				// 部署环境
 				if (url && process.env.NODE_ENV == 'production') {
 					// 全路径 404模板需要
 					let pathname = window.location.pathname
 					let folderPath = pathname.substring(0, pathname.lastIndexOf('/'))
-					src =
-						window.location.origin +
-						folderPath +
-						`/module/${moduleName}/index.html${moduleQuery}#` +
-						(hashPath || '/')
-					// 自动拼接补全
-					// return url
+					if (type == '1') {
+						src = window.location.origin + folderPath + `/module/` + url
+					} else {
+						src = window.location.origin + folderPath + '/' + url
+					}
 				}
 				// 开发环境
 				if (url && process.env.NODE_ENV == 'development') {
-					src = moduleName + '.html' + moduleQuery + '#' + (hashPath || '/')
+					src = moduleName + '.html' + '?' + moduleParmas
 				}
 			}
 			return src
 		},
-		// 切换模块
-		handleSelectModule(name) {
-			this.spinning = true
-			this.activeModuleName = name
-			this.activeModuleIndex = this.moduleList.findIndex(module => module.name == name)
-
-			if (typeof this.moduleSrcList[this.activeModuleIndex] === 'undefined') {
-				this.moduleSrcList[this.activeModuleIndex] = this.moduleList[this.activeModuleIndex].src
-			} else {
-				this.spinning = false
-			}
-		},
-		// 初始化加载第一个模块
 		loadFirstModule(moduleList) {
 			try {
 				if (moduleList && moduleList.length > 0) {
 					this.$nextTick(() => {
-						this.handleSelectModule(moduleList[0]['name'])
+						this.handleSelectModule({ key: moduleList[0]['name'] })
 					})
 				} else {
-					this.$ocxMessage.error(`模块数据读取失败！`)
+					this.$dsaMessage.error(`模块数据读取失败！`)
 				}
 			} catch (e) {
-				this.$ocxMessage.error(`${e}`)
+				this.$dsaMessage.error(`${e}`)
 			}
+		},
+		handleSelectModule({ key }) {
+			let item = this.findItemByKey(key)
+			if (!item.isOpen) {
+				this.spinning = true
+			}
+			this.activeModuleName = [key]
+			item.isOpen = true
+		},
+		findItemByKey(key) {
+			return this.moduleList.find(item => {
+				return item.name == key
+			})
 		}
 	},
 	beforeRouteEnter(to, from, next) {
@@ -150,7 +146,7 @@ export default {
   	background-size: 100% 100vh;
   	overflow: hidden;
 
-  	.ivu-menu-horizontal {
+  	.ant-menu-horizontal {
 		display: flex;
     	justify-content: center;
     	height: 50px;

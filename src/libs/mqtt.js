@@ -1,8 +1,7 @@
 import mqtt from 'mqtt'
 
-let connect = {}
-process.env.NODE_ENV == 'development' && (connect = $_development)
-process.env.NODE_ENV == 'production' && (connect = $_production)
+let { $_connection } = global
+let connect = $_connection
 
 let host = connect.mqtt.host
 let port = connect.mqtt.port

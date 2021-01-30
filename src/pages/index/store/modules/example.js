@@ -46,11 +46,6 @@ export default {
 			commit('SUB_HANDLE', { a: 2, b: 3 }, await dispatch('subHandle', { a: 2, b: 3 }))
 		}
 	}
-	// 引用状态的标识方法 ==> 抽离出去
-	/*
-		可以返回一个值，会缓存结果
-		可以返回一个函数，不会缓存结果
-	*/
 	/*getters : {
 		decorateCount(state) {
 			return `当前数值：${state.count}`
