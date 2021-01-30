@@ -5,8 +5,9 @@
 	"scripts": {
 		"dev": "vue-cli-service serve --module",
 		"dev:all": "vue-cli-service serve --module index,module1,module2",
-		"build": "vue-cli-service build --module",
-		"build:all": "vue-cli-service build --module index,module1,module2",
+		"build": "rimraf dist/*.zip && vue-cli-service build --module && gulp build --gulpfile build/copyfile.js && npm run compression",
+		"build:all": "rimraf dist/*.zip && vue-cli-service build --module index,module1,module2 && gulp build --gulpfile build/copyfile.js && npm run compression",
+		"compression": "node build/compression.js",
 		"lint": "vue-cli-service lint",
 		"prettier": "prettier --write \"src/**/*.{js,jsx,ts,json,vue,css,less,scss,md,html}\""
 	},

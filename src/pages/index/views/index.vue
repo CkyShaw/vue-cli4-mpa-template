@@ -40,7 +40,7 @@ export default {
 	data() {
 		return {
 			moduleList: [],
-			activeModuleName: ['百度'],
+			activeModuleName: [],
 			spinning: false
 		}
 	},

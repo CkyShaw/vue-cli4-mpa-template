@@ -18,6 +18,10 @@ const resolve = dir => {
 	return path.join(__dirname, dir)
 }
 
+// const CompressionPlugin = require('compression-webpack-plugin')
+
+const { name, version } = require('./package.json')
+
 let getPagesConfig = require('./pages.config.js')
 
 let pages = {}
@@ -103,9 +107,9 @@ if (process.argv[2] == 'serve' || process.argv[2] == 'build') {
 
 	// 打包输出路径
 	if (singleCommand == 'index') {
-		outputDir = 'dist/vue-cli4-mpa-template/'
+		outputDir = `dist/${name}_${version}/`
 	} else {
-		outputDir = 'dist/vue-cli4-mpa-template/module/' + singleCommand
+		outputDir = `dist/${name}_${version}/module/${singleCommand}`
 	}
 }
 
