@@ -88,11 +88,7 @@ export default {
 					// 全路径 404模板需要
 					let pathname = window.location.pathname
 					let folderPath = pathname.substring(0, pathname.lastIndexOf('/'))
-					if (type == '1') {
-						src = window.location.origin + folderPath + `/module/` + url
-					} else {
-						src = window.location.origin + folderPath + '/' + url
-					}
+					src = window.location.origin + folderPath + `/module/` + url
 				}
 				// 开发环境
 				if (url && process.env.NODE_ENV == 'development') {
