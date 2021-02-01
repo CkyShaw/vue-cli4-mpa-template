@@ -44,6 +44,8 @@ program
 				error('当前运行所有模块，内存占用过多，请手动或分组运行')
 				exit(1)
 			}
+
+			pages = filterPages(directory, _modules)
 		} else {
 			if (!modules) {
 				error(
@@ -61,14 +63,14 @@ program
 				exit(1)
 			}
 
+			pages = filterPages(directory, _modules)
+
 			// 组标识
-			if (!process.env.npm_lifecycle_event.includes(':')) {
+			if (!process.env.npm_lifecycle_event.includes(':') && !pages['index']) {
 				// 非组开发模式下自动注入容器框架
 				pages['index'] = directory['index']
 			}
 		}
-
-		pages = filterPages(directory, _modules)
 	})
 
 program
