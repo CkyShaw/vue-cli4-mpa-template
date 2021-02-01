@@ -22,45 +22,90 @@ const resolve = dir => {
 
 const { name, version } = require('./package.json')
 
-let getPagesConfig = require('./pages.config.js')
+const { program } = require('commander')
+
+const { chalk, execa, warn, error, log, exit } = require('@vue/cli-shared-utils')
+
+const getDirectory = require('./build/get-directory')
+const filterPages = require('./build/filter-pages')
 
 let pages = {}
+
 let outputDir = 'dist/empty/'
 
-function threadBuild(spawn, projectArray) {
-	for (let i = 1; i < projectArray.length; i++) {
-		let build = spawn('node', [
-			'./node_modules/@vue/cli-service/bin/vue-cli-service.js',
-			'build',
-			'--module',
-			projectArray[i]
-		])
+let currentModule = ''
 
-		build.stdout.on('data', function (data) {
-			console.log('\x1b[92m', 'stdout: ' + data)
-		})
+const directory = getDirectory()
 
-		build.stderr.on('data', function (data) {
-			console.log('\x1b[96m', 'stderr: ' + data)
-		})
+// program.usage('<command> <options>')
 
-		build.on('close', function (code) {
-			console.log('\x1b[97m', 'close: ' + code)
-		})
-	}
-}
+program
+	.command('serve <module>')
+	.description('startup project')
+	.option('-m, --module', '指定运行模块')
+	.action(modules => {
+		const _modules = modules.split(',')
+		if (_modules.length > 9) {
+			error('由于内存限制，限制同时运行9个及以下模块！')
+			exit(1)
+		}
+		// 组标识
+		if (process.env.npm_lifecycle_event.includes(':')) {
+			// 运行自定义组模块
+			pages = filterPages(directory, _modules)
+		} else {
+			// 非组开发模式下自动注入容器框架
+			pages['index'] = directory['index']
+			pages = filterPages(directory, _modules)
+		}
 
-function getPagesByCmd(directory, projectArray) {
-	Object.keys(directory).forEach(name => {
-		projectArray.forEach(item => {
-			if (name == item) {
-				pages[item] = directory[item]
-			}
-		})
+		execa('vue-cli-service', ['serve'])
 	})
-}
+
+program
+	// 每运行一个 build 服务会运行一次
+	.command('build <module>')
+	.description('build project')
+	.option('-m, --module', '指定打包模块')
+	.action(modules => {
+		const _modules = modules.split(',')
+
+		// 两个及以上 手动调用打包，注意从第二个开始
+		if (_modules.length > 1) {
+			for (let i = 1; i < _modules.length; i++) {
+				execa('vue-cli-service', ['build', '--module', _modules[i]])
+			}
+		}
+
+		currentModule = _modules[0]
+
+		pages[currentModule] = directory[currentModule]
+
+		console.log('打包执行11111111111111')
+		console.log(pages)
+		console.log('打包执行22222222222')
+		// 打包输出路径
+		if (currentModule == 'index') {
+			outputDir = `dist/${name}_${version}/`
+		} else {
+			outputDir = `dist/${name}_${version}/module/${currentModule}`
+		}
+	})
+
+program.command('lint')
+
+/*program.arguments('<options>').action(cmd => {
+	program.outputHelp()
+	error(`未知命令 ${chalk.yellow(cmd)}.`)
+	exit(1)
+})*/
+
+program.parse(process.argv)
+
+/*let getPagesConfig = require('./pages.config.js')
 
 if (process.argv[2] == 'serve' || process.argv[2] == 'build') {
+	
 	// 解析
 	if (!process.argv[4] && process.argv[2] == 'serve')
 		return console.log(
@@ -73,45 +118,7 @@ if (process.argv[2] == 'serve' || process.argv[2] == 'build') {
 			'命令参数错误，请输入完整信息，多个模块名以","号隔开！ \n 打包所有项目请运行 npm run build:all or yarn build:all'
 		)
 
-	let projectArray = process.argv[4].split(',')
-	if (process.argv[2] == 'serve' && process.argv[4] && projectArray.length > 9)
-		return console.log('\x1b[91m', '由于内存限制，建议同时运行9个及以下模块！')
-	let singleCommand = projectArray[0]
-	let directory = getPagesConfig.init()
-
-	// 手动多线程构建全部模块，注意：vue会默认开启一个线程所以要从第二个开始打包
-	let spawn = require('child_process').spawn
-	if (process.argv[2] == 'build' && projectArray.length > 1) {
-		threadBuild(spawn, projectArray)
-	}
-	// console.log('process.argv', process.argv)
-
-	// 注入
-	if (process.env.NODE_ENV == 'development' && process.env.npm_lifecycle_event == 'dev:groupName') {
-		// 运行自定义组模块
-		getPagesByCmd(directory, projectArray)
-	} else if (process.env.NODE_ENV == 'development') {
-		// 非主题开发模式下自动注入5200框架
-		pages['index'] = directory['index']
-		getPagesByCmd(directory, projectArray)
-	} else if (process.env.NODE_ENV == 'production') {
-		Object.keys(directory).forEach(name => {
-			projectArray.forEach((item, idx) => {
-				// 每次线程确保匹配当前模块
-				if (name == item && idx == 0) {
-					pages[item] = directory[item]
-				}
-			})
-		})
-	}
-
-	// 打包输出路径
-	if (singleCommand == 'index') {
-		outputDir = `dist/${name}_${version}/`
-	} else {
-		outputDir = `dist/${name}_${version}/module/${singleCommand}`
-	}
-}
+}*/
 
 module.exports = {
 	// 静态资源引用路径
