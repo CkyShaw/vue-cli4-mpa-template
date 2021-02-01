@@ -22,7 +22,7 @@ const resolve = dir => {
 
 const { name, version } = require('./package.json')
 const { program } = require('commander')
-const { execa, error, exit } = require('@vue/cli-shared-utils')
+const { chalk, execa, error, exit } = require('@vue/cli-shared-utils')
 
 const directory = require('./build/get-directory')()
 const filterPages = require('./build/filter-pages')
@@ -46,7 +46,11 @@ program
 			}
 		} else {
 			if (!modules) {
-				error('模块获取失败, 格式: npm run dev module1,module2')
+				error(
+					`模块获取失败, 格式: ${chalk.yellow('npm run dev module1,module2')} or ${chalk.yellow(
+						'yarn dev module1,module2'
+					)}`
+				)
 				exit(1)
 			}
 
@@ -80,7 +84,11 @@ program
 			_modules = Object.keys(directory)
 		} else {
 			if (!modules) {
-				error('模块获取失败, 格式: npm run build module1,module2')
+				error(
+					`模块获取失败, 格式: ${chalk.yellow('npm run build module1,module2')} or ${chalk.yellow(
+						'yarn build module1,module2'
+					)}`
+				)
 				exit(1)
 			}
 
