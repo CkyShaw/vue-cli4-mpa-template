@@ -9,28 +9,23 @@ yarn install
 ### Compiles and hot-reloads for development
 
 ```
-yarn run dev
-yarn run dev-module1
-yarn run dev-module2
-or
-yarn run dev module1,module2
+yarn dev
+yarn dev module1,module2
+yarn dev:all
 ```
 
 ### Compiles and minifies for production
 
 ```
-yarn run build
-yarn run build-index
-yarn run build-module1
-yarn run build-module2
-or
-yarn run build module1,module2
+yarn build
+yarn build module1,module2
+yarn build:all
 ```
 
 ### Lints and fixes files
 
 ```
-yarn run lint
+yarn lint
 ```
 
 ### Customize configuration
