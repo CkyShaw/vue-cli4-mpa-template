@@ -2,14 +2,14 @@
  * 	开发
  * 		1.单独运行： npm run dev module1 或者 yarn dev module1
  * 		2.多个运行： npm run dev module1,module2 或者 yarn dev module1,module2
- * 		3.一组运行： npm run dev:groupName 或者 yarn dev:groupName
- * 		4.全部运行： 支持，但是v8内存爆炸放弃吧，多个和一组打包最多支持 9个项目 同时运行
+ * 		3.一组运行： npm run dev:group 或者 yarn dev:group
+ * 		4.全部运行： 最多支持 9个项目 同时运行
  *
  *  打包
  *  	1.单独打包： npm run build module1 或者 yarn build module1
  *  	2.多个打包： npm run build module1,module2 或者 yarn build module1,module2
- *  	3.一组打包： npm run build:groupName 或者 yarn build:groupName
- *  	3.全部打包： npm run build:all 或者 yarn build:all (多线程效率至少提高 70% 包越多效率提升越大)
+ *  	3.一组打包： npm run build:group 或者 yarn build:group
+ *  	3.全部打包： npm run build:all 或者 yarn build:all (多线程打包效率至少提高 70%)
  *
  */
 const path = require('path')
@@ -21,54 +21,71 @@ const resolve = dir => {
 // const CompressionPlugin = require('compression-webpack-plugin')
 
 const { name, version } = require('./package.json')
-
 const { program } = require('commander')
+const { execa, error, exit } = require('@vue/cli-shared-utils')
 
-const { chalk, execa, warn, error, log, exit } = require('@vue/cli-shared-utils')
-
-const getDirectory = require('./build/get-directory')
+const directory = require('./build/get-directory')()
 const filterPages = require('./build/filter-pages')
 
 let pages = {}
-
 let outputDir = 'dist/empty/'
 
-let currentModule = ''
-
-const directory = getDirectory()
-
-// program.usage('<command> <options>')
-
 program
-	.command('serve <module>')
+	.command('serve [module]')
 	.description('startup project')
 	.option('-m, --module', '指定运行模块')
 	.action(modules => {
-		const _modules = modules.split(',')
-		if (_modules.length > 9) {
-			error('由于内存限制，限制同时运行9个及以下模块！')
-			exit(1)
-		}
-		// 组标识
-		if (process.env.npm_lifecycle_event.includes(':')) {
-			// 运行自定义组模块
-			pages = filterPages(directory, _modules)
+		let _modules = []
+
+		if (process.env.npm_lifecycle_event.includes(':all')) {
+			_modules = Object.keys(directory)
+
+			if (_modules.length > 9) {
+				error('当前运行所有模块，内存占用过多，请手动或分组运行')
+				exit(1)
+			}
 		} else {
-			// 非组开发模式下自动注入容器框架
-			pages['index'] = directory['index']
-			pages = filterPages(directory, _modules)
+			if (!modules) {
+				error('模块获取失败, 格式: npm run dev module1,module2')
+				exit(1)
+			}
+
+			_modules = modules.split(',')
+
+			if (_modules.length > 9) {
+				error('由于内存限制，限制同时运行9个及以下模块！')
+				exit(1)
+			}
+
+			// 组标识
+			if (!process.env.npm_lifecycle_event.includes(':')) {
+				// 非组开发模式下自动注入容器框架
+				pages['index'] = directory['index']
+			}
 		}
 
-		execa('vue-cli-service', ['serve'])
+		pages = filterPages(directory, _modules)
 	})
 
 program
 	// 每运行一个 build 服务会运行一次
-	.command('build <module>')
+	.command('build [module]')
 	.description('build project')
 	.option('-m, --module', '指定打包模块')
 	.action(modules => {
-		const _modules = modules.split(',')
+		let _modules = []
+
+		if (process.env.npm_lifecycle_event.includes(':all') && modules == undefined) {
+			// 只拾取一次目录
+			_modules = Object.keys(directory)
+		} else {
+			if (!modules) {
+				error('模块获取失败, 格式: npm run build module1,module2')
+				exit(1)
+			}
+
+			_modules = modules.split(',')
+		}
 
 		// 两个及以上 手动调用打包，注意从第二个开始
 		if (_modules.length > 1) {
@@ -77,13 +94,10 @@ program
 			}
 		}
 
-		currentModule = _modules[0]
+		let currentModule = _modules[0]
 
 		pages[currentModule] = directory[currentModule]
 
-		console.log('打包执行11111111111111')
-		console.log(pages)
-		console.log('打包执行22222222222')
 		// 打包输出路径
 		if (currentModule == 'index') {
 			outputDir = `dist/${name}_${version}/`
@@ -94,31 +108,7 @@ program
 
 program.command('lint')
 
-/*program.arguments('<options>').action(cmd => {
-	program.outputHelp()
-	error(`未知命令 ${chalk.yellow(cmd)}.`)
-	exit(1)
-})*/
-
 program.parse(process.argv)
-
-/*let getPagesConfig = require('./pages.config.js')
-
-if (process.argv[2] == 'serve' || process.argv[2] == 'build') {
-	
-	// 解析
-	if (!process.argv[4] && process.argv[2] == 'serve')
-		return console.log(
-			'\x1b[91m',
-			'命令参数错误，请输入完整信息，多个模块名以","号隔开！ \n 开发阶段最多同时运行十个以下模块'
-		)
-	if (!process.argv[4] && process.argv[2] == 'build')
-		return console.log(
-			'\x1b[91m',
-			'命令参数错误，请输入完整信息，多个模块名以","号隔开！ \n 打包所有项目请运行 npm run build:all or yarn build:all'
-		)
-
-}*/
 
 module.exports = {
 	// 静态资源引用路径
