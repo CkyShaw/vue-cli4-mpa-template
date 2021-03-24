@@ -17,6 +17,14 @@ Vue.use(DsaDesign)
 import api from './api'
 Vue.prototype.$_api = api
 
+// dsa utils
+/*import * as dsaUtils from 'dsa-utils'
+Vue.prototype.$_d = dsaUtils*/
+
+// bbo
+/*import bbo from 'bbo'
+Vue.prototype.$_b = bbo*/
+
 // 当前模块全局 mqtt连接
 /*import { client, listen, stop } from './libs/mqtt'
 Vue.prototype.$_mqtt = client
