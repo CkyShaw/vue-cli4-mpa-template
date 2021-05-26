@@ -17,35 +17,17 @@ Vue.use(DsaDesign)
 import api from './api'
 Vue.prototype.$_api = api
 
-// dsa utils
+// dsa utils http://172.26.1.231:12000/dsa-utils-doc/index.html
 /*import * as dsaUtils from 'dsa-utils'
 Vue.prototype.$_d = dsaUtils*/
 
-// bbo
+// bbo https://tnfe.github.io/bbo/#logs
 /*import bbo from 'bbo'
 Vue.prototype.$_b = bbo*/
 
-// 当前模块全局 mqtt连接
-/*import { client, listen, stop } from './libs/mqtt'
-Vue.prototype.$_mqtt = client
-Vue.prototype.$_listen = listen
-Vue.prototype.$_stop = stop*/
-
-// 图表
+// 图表 https://echarts.apache.org/zh/index.html
 /*let echarts = require('echarts')
 Vue.prototype.$_echarts = echarts*/
-
-// HighCharts 补充Echarts 特别是3D方面
-/*import Highcharts from 'highcharts/highstock';
-import HighchartsMore from 'highcharts/highcharts-more';
-import HighchartsDrilldown from 'highcharts/modules/drilldown';
-import Highcharts3D from 'highcharts/highcharts-3d';
-import Highmaps from 'highcharts/modules/map';
-HighchartsMore(Highcharts)
-HighchartsDrilldown(Highcharts);
-Highcharts3D(Highcharts);
-Highmaps(Highcharts);
-Vue.prototype.$_highCharts = Highcharts*/
 
 // 设置根字体
 import '@/libs/rem-children'

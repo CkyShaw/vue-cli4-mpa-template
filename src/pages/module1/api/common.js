@@ -9,10 +9,10 @@ import axios from 'axios'
  * @param  {String}  file 文件名称（包括后缀名）
  * @return {Promise}      axios结果
  */
-const loadStaticDataByLocalFile = file => {
+const loadDataByFile = file => {
 	return axios(`./assets/data/${file}`)
 }
 
 export default {
-	loadStaticDataByLocalFile
+	loadDataByFile
 }
