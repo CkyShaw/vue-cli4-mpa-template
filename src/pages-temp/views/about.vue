@@ -3,6 +3,7 @@
 		<h1>This is an about page</h1>
 	</div>
 </template>
+
 <script>
 export default {
 	name: 'about',
@@ -10,6 +11,15 @@ export default {
 	directives: {},
 	filters: {},
 	mixins: {},
+	beforeRouteEnter(to, from, next) {
+		next()
+	},
+	beforeRouteUpdate(to, from, next) {
+		next()
+	},
+	beforeRouteLeave(to, from, next) {
+		next()
+	},
 	props: {},
 	data() {
 		return {}
@@ -22,18 +32,10 @@ export default {
 	beforeUpdate() {},
 	updated() {},
 	beforeDestroy() {},
-	methods: {},
-	beforeRouteEnter(to, from, next) {
-		next()
-	},
-	beforeRouteUpdate(to, from, next) {
-		next()
-	},
-	beforeRouteLeave(to, from, next) {
-		next()
-	}
+	methods: {}
 }
 </script>
+
 <style lang="stylus" scoped>
 .about {
 

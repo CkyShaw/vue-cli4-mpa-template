@@ -70,9 +70,9 @@ program
 			pages = filterPages(directory, _modules)
 
 			// 组标识
-			if (!process.env.npm_lifecycle_event.includes(':') && !pages['index']) {
+			if (!process.env.npm_lifecycle_event.includes(':') && !pages.index) {
 				// 非组开发模式下自动注入容器框架
-				pages['index'] = directory['index']
+				pages.index = directory.index
 			}
 		}
 	})
@@ -120,7 +120,8 @@ program
 		}
 	})
 
-program.command('lint')
+// 放行
+program.command('lint').option('--cache', 'ESLint缓存').option('--fix', '自动修复')
 
 program.parse(process.argv)
 

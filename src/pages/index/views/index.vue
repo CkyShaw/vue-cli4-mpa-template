@@ -1,9 +1,9 @@
 <template>
-	<div class="frame">
+	<div class="frame-control">
 		<!-- 导航组件 H:50px -->
-		<a-menu mode="horizontal" v-model="activeModuleName" @select="handleSelectModule">
-			<template v-for="(module, index) in moduleList">
-				<a-menu-item :name="module.name" :key="module.name">
+		<a-menu v-model="activeModuleName" mode="horizontal" @select="handleSelectModule">
+			<template v-for="module in moduleList">
+				<a-menu-item :key="module.name" :name="module.name">
 					<a-icon :type="module.icon" />
 					{{ module.name }}
 				</a-menu-item>
@@ -12,16 +12,16 @@
 		<!-- iframe 展示区域 -->
 		<a-spin size="large" :spinning="spinning" tip="模块加载中...">
 			<div class="iframe-wrap">
-				<template v-for="(module, index) in openListCache">
+				<template v-for="module in openListCache">
 					<iframe
+						v-show="module.name == activeModuleName[0]"
+						:key="module.name"
 						frameborder="0"
 						width="100%"
 						height="100%"
 						scrolling="no"
 						allowtransparency="true"
 						:src="module.src"
-						:key="module.name"
-						v-show="module.name == activeModuleName[0]"
 						@load="spinning = false"
 					></iframe>
 				</template>
@@ -29,13 +29,23 @@
 		</a-spin>
 	</div>
 </template>
+
 <script>
 export default {
-	name: 'frame',
+	name: 'frame-control',
 	components: {},
 	directives: {},
 	filters: {},
 	mixins: {},
+	beforeRouteEnter(to, from, next) {
+		next()
+	},
+	beforeRouteUpdate(to, from, next) {
+		next()
+	},
+	beforeRouteLeave(to, from, next) {
+		next()
+	},
 	props: {},
 	data() {
 		return {
@@ -76,7 +86,7 @@ export default {
 		updateModuleSrc(url) {
 			// 后台的数据 ac/index.html?name=jack&age=18#/system/device?id=8
 			// http://172.26.3.95:5210/index.html?systemId=1001&hiddenTree=1#/intelligent
-			let src = window.location.href + '404'
+			let src = `${window.location.href}404`
 			if (url && url.indexOf('http') != -1) {
 				src = url
 			} else {
@@ -88,11 +98,11 @@ export default {
 					// 全路径 404模板需要
 					let pathname = window.location.pathname
 					let folderPath = pathname.substring(0, pathname.lastIndexOf('/'))
-					src = window.location.origin + folderPath + `/module/` + url
+					src = `${window.location.origin + folderPath}/module/${url}`
 				}
 				// 开发环境
 				if (url && process.env.NODE_ENV == 'development') {
-					src = moduleName + '.html' + '?' + moduleParmas
+					src = `${moduleName}.html` + `?${moduleParmas}`
 				}
 			}
 			return src
@@ -100,8 +110,8 @@ export default {
 		loadFirstModule(moduleList) {
 			try {
 				if (moduleList && moduleList.length > 0) {
-					this.$nextTick(() => {
-						this.handleSelectModule({ key: moduleList[0]['name'] })
+					this.$nextTick().then(() => {
+						this.handleSelectModule({ key: moduleList[0].name })
 					})
 				} else {
 					this.$dsaMessage.error(`模块数据读取失败！`)
@@ -123,52 +133,44 @@ export default {
 				return item.name == key
 			})
 		}
-	},
-	beforeRouteEnter(to, from, next) {
-		next()
-	},
-	beforeRouteUpdate(to, from, next) {
-		next()
-	},
-	beforeRouteLeave(to, from, next) {
-		next()
 	}
 }
 </script>
-<style lang="stylus" scoped>
-.frame {
-	width: 1920px;
-  	height: 100vh;
-  	background-size: 100% 100vh;
-  	overflow: hidden;
 
-  	.ant-menu-horizontal {
+<style lang="stylus" scoped>
+.frame-control {
+	width: 1920px;
+	height: 100vh;
+	background-size: 100% 100vh;
+	overflow: hidden;
+
+	.ant-menu-horizontal {
 		display: flex;
-    	justify-content: center;
-    	height: 50px;
-    	line-height: 50px;
+		justify-content: center;
+		height: 50px;
+		line-height: 50px;
 	}
 
 	/deep/ .ant-spin-blur::after {
-    	opacity: 0;
-  	}
+		opacity: 0;
+	}
 
-  	.iframe-wrap {
-    	width: 100%;
-    	height: calc(100vh - 50px);
+	.iframe-wrap {
+		width: 100%;
+		height: calc(100vh - 50px);
 
-	    .mask {
-	      	width: 1920px;
-	       	height: calc(100vh - 50px);
-	      	background: #0af;
-	      	background-size: 1920px calc(100vh - 50px);
-	      	position: absolute;
-	      	z-index: 1;
-	    }
+		.mask {
+			width: 1920px;
+			height: calc(100vh - 50px);
+			background: #0af;
+			background-size: 1920px calc(100vh - 50px);
+			position: absolute;
+			z-index: 1;
+		}
 
-	    iframe {
-	       	height: calc(100vh - 50px);
-	    }
-  	}
+		iframe {
+			height: calc(100vh - 50px);
+		}
+	}
 }
 </style>

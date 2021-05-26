@@ -6,23 +6,12 @@
 		</Card>
 	</div>
 </template>
+
 <script>
 export default {
 	name: 'develop',
 	components: {},
-	props: {},
-	data() {
-		return {}
-	},
-	computed: {},
 	filters: {},
-	watch: {},
-	created() {},
-	mounted() {},
-	activated() {},
-	updated() {},
-	beforeDestroy() {},
-	methods: {},
 	beforeRouteEnter(to, from, next) {
 		next()
 	},
@@ -31,17 +20,30 @@ export default {
 	},
 	beforeRouteLeave(to, from, next) {
 		next()
-	}
+	},
+	props: {},
+	data() {
+		return {}
+	},
+	computed: {},
+	watch: {},
+	created() {},
+	mounted() {},
+	activated() {},
+	updated() {},
+	beforeDestroy() {},
+	methods: {}
 }
 </script>
+
 <style lang="stylus" scoped>
 .develop {
-.ivu-card-body{
-    width 100%;
-    height 100%;
-    p{
-        font-size 18px;
-    }
-}
+	.ivu-card-body {
+		width: 100%;
+		height: 100%;
+		p {
+			font-size: 18px;
+		}
+	}
 }
 </style>

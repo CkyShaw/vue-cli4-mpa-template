@@ -6,6 +6,7 @@
 		<router-view />
 	</div>
 </template>
+
 <script>
 export default {
 	name: 'views',
@@ -13,6 +14,15 @@ export default {
 	directives: {},
 	filters: {},
 	mixins: {},
+	beforeRouteEnter(to, from, next) {
+		next()
+	},
+	beforeRouteUpdate(to, from, next) {
+		next()
+	},
+	beforeRouteLeave(to, from, next) {
+		next()
+	},
 	props: {},
 	data() {
 		return {}
@@ -25,18 +35,10 @@ export default {
 	beforeUpdate() {},
 	updated() {},
 	beforeDestroy() {},
-	methods: {},
-	beforeRouteEnter(to, from, next) {
-		next()
-	},
-	beforeRouteUpdate(to, from, next) {
-		next()
-	},
-	beforeRouteLeave(to, from, next) {
-		next()
-	}
+	methods: {}
 }
 </script>
+
 <style lang="stylus">
 #views {
 	font-family: 'Avenir', Helvetica, Arial, sans-serif;

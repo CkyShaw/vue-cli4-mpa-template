@@ -3,6 +3,7 @@
 		<router-view />
 	</div>
 </template>
+
 <script>
 import settings from '@/config'
 import { getQueryObject } from '@/libs/tools'
@@ -39,9 +40,10 @@ export default {
 	}
 }
 </script>
+
 <style lang="stylus">
-@import '~@/assets/style/theme/default-theme/index.styl'
-@import '~@/assets/style/theme/other-theme/index.styl'
+@import '~@/assets/style/theme/default-theme/index.styl';
+@import '~@/assets/style/theme/other-theme/index.styl';
 .full {
 	width: 100%;
 	height: 100%;

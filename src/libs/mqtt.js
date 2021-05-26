@@ -11,11 +11,11 @@ let username = connect.mqtt.username
 let password = connect.mqtt.password
 
 let url = `ws://${host}:${port}/${path}`
-let clientId = 'mqttjs_' + Math.random().toString(16).substr(2, 8)
+let clientId = `mqttjs_${Math.random().toString(16).substr(2, 8)}`
 
 let options = {
 	keepalive: 1000,
-	clientId: clientId,
+	clientId,
 	protocolId: 'MQTT',
 	protocolVersion: 4,
 	clean: true,
@@ -27,8 +27,8 @@ let options = {
 		qos: 0,
 		retain: false
 	},
-	username: username,
-	password: password,
+	username,
+	password,
 	rejectUnauthorized: false
 }
 
@@ -45,7 +45,7 @@ client.on('connect', () => {
 
 // 错误
 client.on('error', err => {
-	console.log('MQTT出错了！:' + err)
+	console.log(`MQTT出错了！:${err}`)
 	client.end()
 })
 

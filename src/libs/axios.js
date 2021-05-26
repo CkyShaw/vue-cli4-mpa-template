@@ -4,6 +4,7 @@ class HttpRequest {
 	constructor(baseUrl = baseURL) {
 		this.baseUrl = baseUrl
 	}
+
 	getInsideConfig() {
 		const config = {
 			baseURL: this.baseUrl,
@@ -13,6 +14,7 @@ class HttpRequest {
 		}
 		return config
 	}
+
 	interceptors(instance, url) {
 		// 请求拦截
 		instance.interceptors.request.use(
@@ -34,6 +36,7 @@ class HttpRequest {
 			}
 		)
 	}
+
 	request(options) {
 		const instance = axios.create()
 		options = Object.assign(this.getInsideConfig(), options)

@@ -1,9 +1,10 @@
 <template>
 	<div class="home">
 		<img alt="Vue logo" src="../assets/img/logo.png" />
-		<HelloWorld msg="Welcome to Your Vue.js App" />
+		<hello-world msg="Welcome to Your Vue.js App" />
 	</div>
 </template>
+
 <script>
 // @ is an alias to /src
 import HelloWorld from '@/components/hello-world.vue'
@@ -14,6 +15,15 @@ export default {
 	directives: {},
 	filters: {},
 	mixins: {},
+	beforeRouteEnter(to, from, next) {
+		next()
+	},
+	beforeRouteUpdate(to, from, next) {
+		next()
+	},
+	beforeRouteLeave(to, from, next) {
+		next()
+	},
 	props: {},
 	data() {
 		return {}
@@ -26,18 +36,10 @@ export default {
 	beforeUpdate() {},
 	updated() {},
 	beforeDestroy() {},
-	methods: {},
-	beforeRouteEnter(to, from, next) {
-		next()
-	},
-	beforeRouteUpdate(to, from, next) {
-		next()
-	},
-	beforeRouteLeave(to, from, next) {
-		next()
-	}
+	methods: {}
 }
 </script>
+
 <style lang="stylus" scoped>
 .home {
 
