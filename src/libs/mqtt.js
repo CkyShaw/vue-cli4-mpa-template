@@ -1,3 +1,4 @@
+// "mqtt": "^4.2.6"
 import mqtt from 'mqtt'
 
 let { $_connection } = global
