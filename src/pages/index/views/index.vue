@@ -75,7 +75,7 @@ export default {
 		},
 		// 获取模块配置静态文件
 		async getModuleListByLocal() {
-			let { data } = await this.$_api.common.loadStaticDataByLocalFile('module.json')
+			let { data } = await this.$_api.common.loadDataByFile('module.json')
 			data.forEach(module => {
 				module.isOpen = false
 				module.src = this.updateModuleSrc(module.src)
