@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import DsaDesign from 'dsa-design'
+import DsaDesign from '@qif/dsa-design'
 
 const originalPush = Router.prototype.push
 Router.prototype.push = function push(location) {
