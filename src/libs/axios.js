@@ -28,8 +28,8 @@ class HttpRequest {
 		// 响应拦截
 		instance.interceptors.response.use(
 			res => {
-				const { data } = res
-				return data
+				const { data, status } = res
+				return { data, status }
 			},
 			error => {
 				return Promise.reject(error)
