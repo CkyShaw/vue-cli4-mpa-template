@@ -1,4 +1,4 @@
-/*!
+/* !
  * 工具函数
  */
 
@@ -18,6 +18,7 @@ export const forEach = (arr, fn) => {
 }
 
 export const isUndefined = val => {
+	// eslint-disable-next-line no-void
 	return val === void 0
 }
 
@@ -53,8 +54,8 @@ export const hasKey = (obj, key) => {
  * @returns {Object}
  */
 export function getQueryObject(url) {
-	url = url == null ? window.location.href : url
-	const search = url.substring(url.lastIndexOf('?') + 1)
+	let _url = url || window.location.href
+	const search = _url.substring(_url.lastIndexOf('?') + 1)
 	const obj = {}
 	const reg = /([^?&=]+)=([^?&=]*)/g
 	search.replace(reg, (rs, $1, $2) => {
@@ -74,7 +75,7 @@ export function getQueryObject(url) {
 export function byteLength(str) {
 	// returns the byte length of an utf8 string
 	let s = str.length
-	for (var i = str.length - 1; i >= 0; i--) {
+	for (let i = str.length - 1; i >= 0; i--) {
 		const code = str.charCodeAt(i)
 		if (code > 0x7f && code <= 0x7ff) s++
 		else if (code > 0x7ff && code <= 0xffff) s += 2
@@ -90,7 +91,7 @@ export function byteLength(str) {
  * @return {*}
  */
 export function debounce(func, wait, immediate) {
-	let timeout, args, context, timestamp, result
+	let timeout; let args; let context; let timestamp; let result
 
 	const later = function () {
 		// 据上一次触发时间间隔
@@ -110,6 +111,7 @@ export function debounce(func, wait, immediate) {
 	}
 
 	return function (...args) {
+		// eslint-disable-next-line no-invalid-this
 		context = this
 		timestamp = Number(new Date())
 		const callNow = immediate && !timeout
@@ -117,6 +119,7 @@ export function debounce(func, wait, immediate) {
 		if (!timeout) timeout = setTimeout(later, wait)
 		if (callNow) {
 			result = func.apply(context, args)
+			// eslint-disable-next-line no-param-reassign
 			context = args = null
 		}
 
@@ -164,13 +167,16 @@ export function hasOwn(obj, key) {
 
 function extend(to, _from) {
 	for (let key in _from) {
-		to[key] = _from[key]
+		
+		if (Object.prototype.hasOwnProperty.call(_from, key)) {
+			to[key] = _from[key]
+		}
 	}
 	return to
 }
 
 export function toObject(arr) {
-	var res = {}
+	let res = {}
 	for (let i = 0; i < arr.length; i++) {
 		if (arr[i]) {
 			extend(res, arr[i])
@@ -218,6 +224,10 @@ export const coerceTruthyValueToArray = function (val) {
 	return []
 }
 
+export function isObject(obj) {
+	return Object.prototype.toString.call(obj) === '[object Object]'
+}
+
 export const looseEqual = function (a, b) {
 	const isObjectA = isObject(a)
 	const isObjectB = isObject(b)
@@ -230,15 +240,15 @@ export const looseEqual = function (a, b) {
 }
 
 export const arrayEquals = function (arrayA, arrayB) {
-	arrayA = arrayA || []
-	arrayB = arrayB || []
+	let _arrayA = arrayA || []
+	let _arrayB = arrayB || []
 
-	if (arrayA.length !== arrayB.length) {
+	if (_arrayA.length !== _arrayB.length) {
 		return false
 	}
 
-	for (let i = 0; i < arrayA.length; i++) {
-		if (!looseEqual(arrayA[i], arrayB[i])) {
+	for (let i = 0; i < _arrayA.length; i++) {
+		if (!looseEqual(_arrayA[i], _arrayB[i])) {
 			return false
 		}
 	}
@@ -255,7 +265,7 @@ export const isEqual = function (value1, value2) {
 
 export const isEmpty = function (val) {
 	// null or undefined
-	if (val == null) return true
+	if (val === null || val === undefined) return true
 
 	if (typeof val === 'boolean') return false
 
@@ -285,7 +295,7 @@ export const isEmpty = function (val) {
 }
 
 export function contains(root, n) {
-	var node = n
+	let node = n
 	while (node) {
 		if (node === root) {
 			return true

@@ -1,11 +1,11 @@
-/*!
+/* !
  * 辅助函数
  */
 
 // 管道
 export function pipeline(...fns) {
 	return function (x) {
-		return fns.reduce(function (arg, fn) {
+		return fns.reduce((arg, fn) => {
 			return fn(arg)
 		}, x)
 	}
@@ -13,15 +13,18 @@ export function pipeline(...fns) {
 
 // Find components upward 通过组件名称从目标源向父链查找单个组件
 export function findComponentUpward(context, componentName, componentNames) {
+
+	let _componentNames
+
 	if (typeof componentName === 'string') {
-		componentNames = [componentName]
+		_componentNames = [componentName]
 	} else {
-		componentNames = componentName
+		_componentNames = componentName
 	}
 
 	let parent = context.$parent
 	let name = parent.$options.name
-	while (parent && (!name || componentNames.indexOf(name) < 0)) {
+	while (parent && (!name || _componentNames.indexOf(name) < 0)) {
 		parent = parent.$parent
 		if (parent) name = parent.$options.name
 	}

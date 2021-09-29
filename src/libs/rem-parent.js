@@ -1,11 +1,11 @@
-/*!
+/* !
  * 根据当前窗口大小 设置根字体大小
  */
 
 import { debounce } from 'throttle-debounce'
 
 let updateRootFontSize = () => {
-	let { containerWidth, moduleWidth } = global
+	let { containerWidth } = global
 	// 反向计算基准大小 确保在1024分辨率下 1rem=12px chrome最低支持12px
 	let rootFontSize = containerWidth / (1024 / 12)
 	// 动态根字体

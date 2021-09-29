@@ -1,4 +1,4 @@
-/*!
+/* !
  * app配置文件
  */
 let { $_connection } = global

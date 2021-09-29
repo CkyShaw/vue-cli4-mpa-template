@@ -1,4 +1,4 @@
-/*!
+/* !
  * 	开发
  * 		1.单独运行： npm run dev module1 或者 yarn dev module1
  * 		2.多个运行： npm run dev module1,module2 或者 yarn dev module1,module2
@@ -155,14 +155,14 @@ module.exports = {
 			errors: true
 		}
 		// 代理相关
-		/*proxy: {
+		/* proxy: {
 	        '/': {
 	            target: 'https://58.144.147.140:443',
 	            ws: true,
 	            changOrigin: true,
 	            secure: false,
 	        }
-	    }*/
+	    } */
 	},
 
 	// 打包时不生成.map文件
@@ -204,9 +204,9 @@ module.exports = {
 			.set('@module2', resolve('src/pages/module2'))
 
 		// 已弃用 转移至 eslint-webpack-plugin
-		/*config.module.rule('eslint').use('eslint-loader').options({
+		/* config.module.rule('eslint').use('eslint-loader').options({
 			fix: true
-		})*/
+		}) */
 	},
 
 	configureWebpack: config => {

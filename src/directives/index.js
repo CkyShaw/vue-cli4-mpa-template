@@ -1,4 +1,4 @@
-/*!
+/* !
  * 全局指令插件
  */
 import clickoutside from './clickoutside'

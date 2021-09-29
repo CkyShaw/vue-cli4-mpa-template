@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 class HttpRequest {
-	constructor(baseUrl = baseURL) {
+	constructor(baseUrl) {
 		this.baseUrl = baseUrl
 	}
 
@@ -39,9 +39,9 @@ class HttpRequest {
 
 	request(options) {
 		const instance = axios.create()
-		options = Object.assign(this.getInsideConfig(), options)
-		this.interceptors(instance, options.url)
-		return instance(options)
+		let _options = Object.assign(this.getInsideConfig(), options)
+		this.interceptors(instance, _options.url)
+		return instance(_options)
 	}
 }
 export default HttpRequest

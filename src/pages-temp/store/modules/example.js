@@ -21,7 +21,7 @@ export default {
 				setTimeout(() => {
 					commit('ADD_HANDLE')
 					resolve()
-					reject()
+					reject(new Error('ADD_HANDLE_ERROR'))
 				}, 700)
 			})
 		},
@@ -46,9 +46,9 @@ export default {
 			commit('SUB_HANDLE', { a: 2, b: 3 }, await dispatch('subHandle', { a: 2, b: 3 }))
 		}
 	}
-	/*getters : {
+	/* getters : {
 		decorateCount(state) {
 			return `当前数值：${state.count}`
 		}
-	}*/
+	} */
 }

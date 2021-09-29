@@ -49,18 +49,18 @@ client.on('error', err => {
 	client.end()
 })
 
-//关闭连接
+// 关闭连接
 client.on('end', () => {
 	console.log('MQTT连接结束')
 })
 
-//监听离线
-client.on('offline', function () {
+// 监听离线
+client.on('offline', () => {
 	console.log('MQTT已离线')
 })
 
-//重连
-client.on('reconnect', function () {
+// 重连
+client.on('reconnect', () => {
 	console.log('MQTT正在重连')
 })
 
@@ -82,7 +82,8 @@ let stop = key => {
 	}
 }
 let trigger = (topic, message, packet) => {
-	Object.keys(messageQueue).map(key => {
+	Object.keys(messageQueue).forEach(key => {
+		// eslint-disable-next-line no-invalid-this
 		messageQueue[key].apply(this, [topic, message, packet])
 	})
 }
@@ -90,6 +91,6 @@ let trigger = (topic, message, packet) => {
 export { client, listen, stop }
 
 // 监听
-/*client.on('message', function (topic, message, packet) {
+/* client.on('message', function (topic, message, packet) {
 	console.log('Received Message:= ' + message.toString() + '\nOn topic:= ' + topic)
-})*/
+}) */

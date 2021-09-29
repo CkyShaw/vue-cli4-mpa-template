@@ -18,16 +18,16 @@ import api from './api'
 Vue.prototype.$_api = api
 
 // dsa utils http://172.26.1.201:9982/dsa-utils-doc/index.html
-/*import * as dsaUtils from '@qif/dsa-utils'
-Vue.prototype.$_d = dsaUtils*/
+/* import * as dsaUtils from '@qif/dsa-utils'
+Vue.prototype.$_d = dsaUtils */
 
 // bbo https://tnfe.github.io/bbo/#logs
-/*import bbo from 'bbo'
-Vue.prototype.$_b = bbo*/
+/* import bbo from 'bbo'
+Vue.prototype.$_b = bbo */
 
 // 图表 https://echarts.apache.org/zh/index.html
-/*let echarts = require('echarts')
-Vue.prototype.$_echarts = echarts*/
+/* let echarts = require('echarts')
+Vue.prototype.$_echarts = echarts */
 
 // 设置根字体
 import '@/libs/rem-children'

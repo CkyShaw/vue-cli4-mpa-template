@@ -16,12 +16,12 @@ const router = new Router({
 	mode: 'hash'
 })
 // 加载条配置
-/*DsaDesign.LoadingBar.config({
+/* DsaDesign.LoadingBar.config({
 	color: '#0af',
 	failedColor: '#fa0',
 	height: 3,
 	duration: 800
-})*/
+}) */
 router.beforeEach((to, from, next) => {
 	DsaDesign.LoadingBar.start()
 	next()
