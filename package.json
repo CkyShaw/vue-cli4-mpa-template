@@ -77,7 +77,8 @@
 		"chrome >= 38"
 	],
 	"gitHooks": {
-		"pre-commit": "lint-staged"
+		"pre-commit": "lint-staged",
+		"commit-msg": "commitlint -E GIT_PARAMS"
 	},
 	"lint-staged": {
 		"*.{js,jsx,ts,vue}": "vue-cli-service lint --cache --fix",
