@@ -6,7 +6,7 @@ module.exports = {
 /**
  * @example1 git commit -m 'feat: 增加 xxx 功能'
  * @example2 git commit -m 'bug: 修复 xxx 功能'
- * 
+ *
  * feat      新特性、新功能
  * fix       bug修复
  * build     发布版本

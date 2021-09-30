@@ -13,7 +13,6 @@ export function pipeline(...fns) {
 
 // Find components upward 通过组件名称从目标源向父链查找单个组件
 export function findComponentUpward(context, componentName, componentNames) {
-
 	let _componentNames
 
 	if (typeof componentName === 'string') {

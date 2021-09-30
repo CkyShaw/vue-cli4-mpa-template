@@ -91,7 +91,11 @@ export function byteLength(str) {
  * @return {*}
  */
 export function debounce(func, wait, immediate) {
-	let timeout; let args; let context; let timestamp; let result
+	let timeout
+	let args
+	let context
+	let timestamp
+	let result
 
 	const later = function () {
 		// 据上一次触发时间间隔
@@ -167,7 +171,6 @@ export function hasOwn(obj, key) {
 
 function extend(to, _from) {
 	for (let key in _from) {
-		
 		if (Object.prototype.hasOwnProperty.call(_from, key)) {
 			to[key] = _from[key]
 		}
