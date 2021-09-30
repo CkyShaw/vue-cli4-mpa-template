@@ -1,4 +1,7 @@
 module.exports = {
+	plugins: ['prettier'],
 	extends: ['@qif/eslint-config', '@qif/eslint-config/vue2'],
-	rules: {}
+	rules: {
+		'prettier/prettier': 'error'
+	}
 }
